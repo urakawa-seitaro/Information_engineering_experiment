@@ -61,7 +61,7 @@
 </ul>
 <h4><a name="label-6" id="label-6">測光の手順</a></h4><!-- RDLabel: "測光の手順" -->
 <ul>
-<li>Aperture の設定
+<li>Aperture(アパーチャー：開口半径)の設定
 <ul>
 <li>明るく周囲に星がない孤立した星を選ぶ
 <ul>
@@ -74,13 +74,14 @@
 <li>「Save Aperture」をクリックする</li>
 </ul></li>
 </ul></li>
-<li>複数の星を同時に測光する
+<li>複数の星を同時に測光する(Analyzeは星の画像が写っている方の画面のタブ）
 <ul>
 <li>Analyze -&gt; Multi-aperture...
 <ul>
 <li>Multi-Aperture Measurements の窓で測光のパラメターを設定する
 <ul>
-<li>「Radius of object aperture」「Inner radius of background annulus」「Outer radius of background annulus」の３つの数字が，先ほどメモした３つの数字に一致することを確認する</li>
+<li>「Fixed/Base radius of photometric aperture」「Fixed/Base radius of inner background annulus」「Fixed/Base radius of outer background annulus」の3つの数字が,先ほどメモした３つの数字に一致することを確認する。</li>
+<li> ただし、Inner radiusとouter radiusは少し小さめの値に変更しても良い。これは近接する星の影響を軽減するためである。</li>
 <li>Fixed Apertures as selected above にチェックを入れる</li>
 <li>Auto comparison stars のチェックを外す</li>
 <li>Remove stars from background にチェックを入れる</li>
@@ -112,6 +113,10 @@
 <ul>
 <li>Multi-plot Main の窓で Table -&gt; Transpose currently selected table とすると，行と列が入れ替わる</li>
 <li>Multi-plot Reference Star Settings の窓で「Save Table」のボタンをクリックすると，測光結果が保存される(デフォルトのファイル名はxlsという拡張子が付いているが，その実態はxlsではなくTab区切りのテキスト)</li>
+<li>ファイルの中身に色々な情報が書いているが欲しいのは、それぞれの星のBバンド及びVバンドのSouce-Skyの値。一列目に星のid、2列目にBバンドのSouce-skyの値、3列目にVバンドのSouce-skyの値がくるように整形する。</li>
+<li>整形の方法は自由(Excelでも良い)。J科の皆さんならプログラムを書いてあっさりできるのではないかと期待。</li>
+<li>2列目のデータと3列目のデータと及び補正値Cave(BとVでそれぞれ異なる値)を用いて、天文学的な等級、B等級、V等級を求める。</li>
+<li>横軸にB-V、縦軸にVをとってHR図を描く。縦軸は数字が小さい方が上になるように。これは数字が小さいほど明るいという天文学の慣習のため。</li>
 </ul></li>
 </ul></li>
 </ul></li>
