@@ -11,7 +11,7 @@
 <small> [ <a href="https://www.matsue-ct.ac.jp/">松江工業高等専門学校</a> | <a href="https://info.matsue-ct.ac.jp/">情報工学科</a> | <a href="https://urakawa-seitaro.github.io/Information_engineering_experiment/">情報工学実験トップに戻る</a> ] </small>
 <h1><a name="label-0" id="label-0">情報工学実験</a></h1><!-- RDLabel: "情報工学実験" -->
 <h2><a name="label-1" id="label-1">測光</a></h2><!-- RDLabel: "測光" -->
-<p>AstroImageJを使ってBバンドとVバンドをまとめて測光する．</p>
+<p>AstroImageJを使ってBバンドとVバンドをまとめて測光する．(測光＝天体の明るさを測定すること)</p>
 <h3><a name="label-2" id="label-2">重ねたBバンドの画像と重ねたVバンドの画像をまとめて読み込む</a></h3><!-- RDLabel: "重ねたBバンドの画像と重ねたVバンドの画像をまとめて読み込む" -->
 <ul>
 <li>フィルターごとに重ね合わせた画像を１つのフォルダーに入れる</li>
@@ -29,20 +29,22 @@
 </ul>
 <h3><a name="label-3" id="label-3">測光</a></h3><!-- RDLabel: "測光" -->
 <ul>
-<li>ゼロ点補正のための測光と，HR図を作るための測光，２つに分けておこなう
+<li>方針：「ゼロ点補正(補正値の算出)のための測光」と「HR図を作るための測光」を分けておこなう。 
 <ul>
-<li>まとめて測光してもいいけど，分けてやる方がたぶん簡単</li>
+<li>ゼロ点補正のための測光：論文にある明るさのわかっている１０個ぐらいの星を測光して、機械等級と本当の等級の差(補正値)を算出する</li>
+<li>HR図を作るための測光：論文にない星も含めて画像中の星を測光する。機械等級から本当の等級への変換は一律に補正値を使えば良い。</li>
 </ul></li>
 </ul>
 <h4><a name="label-4" id="label-4">ゼロ点補正のための測光</a></h4><!-- RDLabel: "ゼロ点補正のための測光" -->
 <ul>
 <li>以下にある「測光の手順」に従って，<a href="Anupama1994.pdf">Anupama et al. 1994</a>にある星を10星ほど選んで測光する
 <ul>
-<li>どの星をどの順番で測光したのかメモしておく</li>
+<li>画面を上下反転させると論文と同じ配置になる。ViewタブからInvert-Yを選ぶと上下反転する</li>
+<li>どの星をどの順番で測光したのかメモしておくこと(ゼロ点補正のための測光)。特に一つ目の位置は重要(ゼロ点補正＆HR図の両方で重要)。</li>
 </ul></li>
 <li>測光したら，<a href="zero-calc.pdf">ゼロ点補正手順について</a>に従って，補正値C0aveを求める</li>
 </ul>
-<h4><a name="label-5" id="label-5">HR図を作るための測光</a></h4><!-- RDLabel: "HR図を作るための測光" -->
+<h4><a name="label-5" id="label-5">HR図を作るための測光（ゼロ点補正のための測光が完了して補正値C0aveがわかってから取り組む）</a></h4><!-- RDLabel: "HR図を作るための測光" -->
 <ul>
 <li>以下にある「測光の手順」に従って，できるだけ多くの星を測光する
 <ul>
@@ -74,7 +76,7 @@
 <li>「Save Aperture」をクリックする</li>
 </ul></li>
 </ul></li>
-<li>複数の星を同時に測光する(Analyzeは星の画像が写っている方の画面のタブ）
+<li>複数の星を同時に測光する(ゼロ点補正測光、HR図測光の共通手順。Analyzeは星の画像が写っている方の画面のタブ）
 <ul>
 <li>Analyze -&gt; Multi-aperture...
 <ul>
@@ -87,9 +89,11 @@
 <li>Remove stars from background にチェックを入れる</li>
 <li>「Aperture Settings」のボタンをクリックする
 <ul>
+<li>Saturation warinigとLinearity warningのチェックを外す。外さなかったらSourc-Sky以外のデータも出力される。</li>
 <li>「More Settings」のボタンをクリックする
 <ul>
 <li>Select single aperture items to display in measurements table: の中から，以下の２つにだけチェックを入れる(それ以外のチェックを外す)
+
 <ul>
 <li>Filename (Label)</li>
 <li>Source Counts (Source-Sky)</li>
@@ -107,16 +111,41 @@
 <ul>
 <li>測光する星をクリックする</li>
 <li>測光する星を全てクリックしたら，「Enter」キーを押す</li>
+
+<li>途中でクリック操作を間違った時　=> 星を選んでいる途中ならEscキーを押す。最初からやり直しとなる。</li>
+<li>Enterキーを押した後　=> Multi-apertureタブをクリックしてやり直し。この時、Multi-aperture MeasurementsのダイアログでPlace N(個数) previous used apertureというチェックボックスを選択。一つ目の星を正しくクリック=>一つ目の星の位置関係から測光済みの星を推定するので、測定に失敗した続きの星から測光できる。</li>
+<figure>
+    <img src = "astroimageJ_ref_star.jpg", width = "400">
+    <figcaption>図１. 論文の星、ゼロ点補正で10個を選択した場合の例</figcaption>
+</figure>
+<figure>
+    <img src = "MultiApeDialog.jpg", width = "400">
+    <figcaption>図2. 途中からやり直す時のMulti-Aperture Measurementsのダイアログの例</figcaption>
+</figure>
+</ul>
 </ul></li>
-<li>測光が始まり，窓がいくつか開く</li>
+<li>「Enter」キーを押すと測光が始まり，窓がいくつか開く</li>
 <li>測光が終わったら
 <ul>
-<li>Multi-plot Main の窓で Table -&gt; Transpose currently selected table とすると，行と列が入れ替わる</li>
-<li>Multi-plot Reference Star Settings の窓で「Save Table」のボタンをクリックすると，測光結果が保存される(デフォルトのファイル名はxlsという拡張子が付いているが，その実態はxlsではなくTab区切りのテキスト)</li>
+<li>Multi-plot Main の窓で Table -&gt; Transpose currently selected table とすると，測定結果の行と列が入れ替わる(入れ替えたほうがこの後の処理が楽になる)</li>
+<figure>
+    <img src = "low_linr_exchange.jpg", width = "400">
+    <figcaption>図3. 行列の入れ替え(ゼロ点補正の例)</figcaption>
+</figure>
+<li>Measurements in Measurments_tranposedに結果がでるので、File=>Save asから.txt拡張子をつけて保存</li>
+<figure>
+    <img src = "result1.jpg", width = "400">
+    <figcaption>図4. この図は、Saturation warinigとLinearity warningのチェックを外し忘れた時の結果、Sourc_ErrorやPeakの値はいらないのでチェックを外し忘れたならテキストファイル上であとから削除。テキストファイルの編集はVSCodeなど自分の慣れた環境で行えば良い。</figcaption>
+</figure>
 <li>ファイルの中身に色々な情報が書いているが欲しいのは、それぞれの星のBバンド及びVバンドのSouce-Skyの値。一列目に星のid、2列目にBバンドのSouce-skyの値、3列目にVバンドのSouce-skyの値がくるように整形する。</li>
 <li>整形の方法は自由(Excelでも良い)。J科の皆さんならプログラムを書いてあっさりできるのではないかと期待。</li>
 <li>2列目のデータと3列目のデータと及び補正値Cave(BとVでそれぞれ異なる値)を用いて、天文学的な等級、B等級、V等級を求める。</li>
-<li>横軸にB-V、縦軸にVをとってHR図を描く。縦軸は数字が小さい方が上になるように。これは数字が小さいほど明るいという天文学の慣習のため。</li>
+<figure>
+    <img src = "Excel_Calib.jpg", width = "800">
+    <figcaption>図5. Excelでの処理例。補正値の平均が求めたかった、Bバンド、Vバンドそれぞれでのゼロ点(補正値)。</figcaption>
+</figure>
+<li>ゼロ点補正の測光はここまで。HR図作成のための測光へ。このページだと、「複数の星を同時に測光する」に戻る。
+<li>HR図のための測光が終わったら、横軸にB-V等級、縦軸にV等級としてHR図を描く。縦軸は数字が小さい方が上になるように。これは数字が小さいほど明るいという天文学の慣習のため。</li>
 </ul></li>
 </ul></li>
 </ul></li>
