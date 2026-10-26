@@ -11,7 +11,7 @@
 <small> [ <a href="https://www.matsue-ct.ac.jp/">松江工業高等専門学校</a> | <a href="https://info.matsue-ct.ac.jp/">情報工学科</a> | <a href="https://urakawa-seitaro.github.io/Information_engineering_experiment/">情報工学実験トップに戻る</a> ] </small>
 <h1><a name="label-0" id="label-0">情報工学実験</a></h1><!-- RDLabel: "情報工学実験" -->
 <h2><a name="label-1" id="label-1">測光</a></h2><!-- RDLabel: "測光" -->
-<p>AstroImageJを使ってBバンドとVバンドをまとめて測光する．(測光＝天体の明るさを測定すること)</p>
+<p>AstroImageJを使ってBバンドとVバンドをまとめて測光する．(測光＝天体の明るさを測定すること)。下の解説だけではよくわからない人は、一つ上の階層にある解説動画も参照すること。ソフトのバージョン違いで細かい点で異なる所もあるがやるべきことは同じ</p>
 <h3><a name="label-2" id="label-2">重ねたBバンドの画像と重ねたVバンドの画像をまとめて読み込む</a></h3><!-- RDLabel: "重ねたBバンドの画像と重ねたVバンドの画像をまとめて読み込む" -->
 <ul>
 <li>フィルターごとに重ね合わせた画像を１つのフォルダーに入れる</li>
@@ -142,10 +142,19 @@
 <li>2列目のデータと3列目のデータと及び補正値Cave(BとVでそれぞれ異なる値)を用いて、天文学的な等級、B等級、V等級を求める。</li>
 <figure>
     <img src = "Excel_Calib.jpg", width = "800">
-    <figcaption>図5. Excelでの処理例。補正値の平均が求めたかった、Bバンド、Vバンドそれぞれでのゼロ点(補正値)。</figcaption>
+    <figcaption>図5. Excelでの処理例。I列したから2行目の「補正値の平均」の横の数値が求めたかった、Bバンド、Vバンドそれぞれでのゼロ点(補正値)。E列、F列2行目の説明2.5log10(C列)はマイナス抜けている。実際の計算ではマイナスをつけて計算</figcaption>
 </figure>
-<li>ゼロ点補正の測光はここまで。HR図作成のための測光へ。このページだと、「複数の星を同時に測光する」に戻る。
+<li>ゼロ点補正の測光はここまで。HR図作成のための測光へ。このページだと、「複数の星を同時に測光する」に戻る。</li>
+<figure>
+    <img src = "alldata_excel.jpg", width = "800">
+    <figcaption>図6. 全ての星を測光した結果の例</figcaption>
+</figure>
 <li>HR図のための測光が終わったら、横軸にB-V等級、縦軸にV等級としてHR図を描く。縦軸は数字が小さい方が上になるように。これは数字が小さいほど明るいという天文学の慣習のため。</li>
+<li>I列のB-Vを横軸、J列のVを縦軸としてHR図（Color-Magnitude Diagramともいう）をpythonで作図した結果例。</li>
+<figure>
+    <img src = "CMD_result500b.png", width = "600">
+    <figcaption>図7. HR図（Color-Magnitude Diagram）の作図例。pandasとmatplotlibを利用。B-V&lt;0、B-V&gt;1.25、V&gt;9の外れ値は表示から除いた。</figcaption>
+</figure>
 </ul></li>
 </ul></li>
 </ul></li>
