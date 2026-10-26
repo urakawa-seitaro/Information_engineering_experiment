@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>情報工学実験</title>
+<link href="./天文学入門測光_files/labhtm.css" type="text/css" rel="stylesheet">
+<!-- head-element:nil -->
+</head>
+<body>
+
+<small> [ <a href="https://www.matsue-ct.ac.jp/">松江工業高等専門学校</a> | <a href="https://info.matsue-ct.ac.jp/">情報工学科</a> | <a href="https://urakawa-seitaro.github.io/Information_engineering_experiment/">情報工学実験トップに戻る</a> ] </small>
+<h1><a name="label-0" id="label-0">情報工学実験</a></h1><!-- RDLabel: "情報工学実験" -->
+<h2><a name="label-1" id="label-1">理論値と比較して読み解く</a></h2><!-- RDLabel: "理論値と比較して読み解く" -->
+<p>測光で作ったM67のHR図(色等級図、CMD)を、理論計算で得られた等時曲線(=ある年齢の様々な質量の星のHR図)と比べて、M67の年齢と距離を求める。作業自体はトップページにある解説動画も参照すること。</p>
+
+<h3><a name="label-2" id="label-2">1. 恒星の進化は理論的に記述できる</a></h3><!-- RDLabel: "1. 恒星の進化は理論的に記述できる" -->
+<ul>
+<li>恒星の内部構造と進化は、物理法則(重力と圧力のつり合い、核融合によるエネルギー生成、エネルギーの輸送など)を連立させた方程式を数値的に解くことで計算できる。</li>
+<li>生まれたときの質量と化学組成(金属量)が決まれば、その星が各年齢でどれくらいの明るさ・色(表面温度)になるかが求まる。</li>
+<li>質量の大きい星ほど明るく、燃料を早く使い切るので寿命が短い。主系列での水素燃焼を終えた星は、主系列を離れて巨星(HR図の右上)へと進化する。</li>
+<li>星団の星は「ほぼ同じ時期に、同じ化学組成で」生まれたと考えられる。そこで、同じ年齢で質量だけが異なる星をHR図上に並べた曲線を考える。これを<b>等時曲線(Isochrone)</b>という。</li>
+</ul>
+
+<h3><a name="label-3" id="label-3">2. 理論計算の結果はSTEVサーバーから取得できる</a></h3><!-- RDLabel: "2. 理論計算の結果はSTEVサーバーから取得できる" -->
+<ul>
+<li>イタリアのパドヴァ天文台が公開している<a href="http://stev.oapd.inaf.it/cgi-bin/cmd">STEV(理論等時線サーバー、CMD input form)</a>を使うと、年齢や金属量を指定して、理論計算による等時曲線をダウンロードできる。</li>
+<li>自分で星の進化計算をしなくても、研究で使われている理論モデルの結果をそのまま使える。</li>
+</ul>
+
+<h3><a name="label-4" id="label-4">3. STEVサーバーから年齢を指定してCMDを取得する</a></h3><!-- RDLabel: "3. STEVサーバーから年齢を指定してCMDを取得する" -->
+<ul>
+<li>まずは<b>10億年(1 Gyr)</b>の等時曲線を取得する。</li>
+<li><a href="https://stev.oapd.inaf.it/cgi-bin/cmd">STEV</a>のページで主に設定する項目
+<ul>
+<li>Ages(年齢)：年齢を年単位で指定する。10億年なら1e9。</li>
+<figure>
+    <img src = "isochrone_age.jpg", width = "600">
+    <figcaption>図1. 年齢の指定例</figcaption>
+</figure>
+<li>Metallicities(金属量)：M67は太陽とほぼ同じ化学組成なので、太陽金属量([M/H]=0)のままでよい。</li>
+<li>その他の項目はデフォルトのままでよい。</li>
+</ul></li>
+<li>ページ下の「Submit」をクリックし、結果ページに表示されるリンクから出力ファイル(テキストファイル)をダウンロードして保存する。</li>
+<figure>
+    <img src = "example_output.jpg", width = "600">
+    <figcaption>図2. 出力ファイルの例。output----.datファイルを保存。(Macの場合は、リンク先を別名で保存)。出力ファイルの拡張子はtxtが良い。</figcaption>
+</figure>
+<li>出力ファイルの先頭の「#」で始まる行はコメント(説明)。データの各列のうち、必要なのは<b>Bmag(B等級)</b>と<b>Vmag(V等級)</b>の列。どの列がそれにあたるかは、データの直前にある列名の行で確認する。</li>
+<li>取得方法の詳細は、トップページの「データ入手方法の説明」も参照すること。</li>
+</ul>
+
+<h3><a name="label-5" id="label-5">4. 等時曲線のグラフを作り、転向点から年齢を推定する</a></h3><!-- RDLabel: "4. 等時曲線のグラフを作り、転向点から年齢を推定する" -->
+<ul>
+<li>取得した結果から、(B-V)magを計算し、横軸にB-V等級、縦軸にV等級としてグラフを作る。HR図と同じく、縦軸は数字が小さい方が上になるようにする。</li>
+<li>グラフを作る方法は自由(Excelでも良い)。HR図と同じようにpythonで作図すると、あとで実測のHR図と重ねるのが楽になる。gnuplotでも良い</li>
+<figure>
+    <img src = "isochrone_plot.png", width = "600">
+    <figcaption>図3. 10億年の等時曲線の作図例。pandasとmatplotlibを利用。この例だとB-V=0.25等級付近が転向点。</figcaption>
+</figure>
+<figure>
+    <img src = "isochrone_plot_100oku.png", width = "600">
+    <figcaption>図4. 100億年の等時曲線の作図例。この例だとB-V=0.7等級付近が転向点。10億年(図3)より転向点が暗く、赤く(右下へ)移動している。</figcaption>
+</figure>
+<li>主系列の上端で、等時曲線が巨星の方向(B-V等級が大きい右上側)へ曲がる部分を<b>転向点(ターンオフ点)</b>という。
+<ul>
+<li>転向点の星は、ちょうど今、主系列での水素燃焼を終えようとしている星。</li>
+<li>星団の年齢が古いほど、明るく寿命の短い星から順に主系列を離れていくので、転向点は暗く、赤く(右下へ)移動する。</li>
+</ul></li>
+<li>この転向点を目印に年齢を推定する。10億年だけでなく、30億年、100億年など、年齢を変えた等時曲線を取得して試してみる。</li>
+<li>自分で作ったM67のHR図の転向点の形と最もよく合う年齢を探す。複数の年齢の等時曲線を1枚のグラフに重ねて描くと比べやすい。</li>
+</ul>
+
+<h3><a name="label-6" id="label-6">5. V等級のオフセットから距離を求める</a></h3><!-- RDLabel: "5. V等級のオフセットから距離を求める" -->
+<ul>
+<li>STEVの等時曲線は<b>絶対等級</b>(星を10 pcの距離に置いたときの等級)での結果である。一方、測光で求めたHR図は見かけの等級。</li>
+<li>大雑把に年齢がわかったら、その年齢の等時曲線を縦方向(V等級方向)に平行移動させて、実測のHR図に重なるようにする。このときの移動量(V等級のオフセット)が、見かけの等級mと絶対等級Mの差m-M(距離指数)になる。</li>
+<figure>
+    <img src = "isochrone_overlay.png", width = "600">
+    <figcaption>図5. 10億年と100億年の等時曲線のV等級を仮に10等級暗くオフセットさせて、実測したM67のHR図(図7のデータ)と重ねた例。実測の転向点は10億年と100億年の等時曲線の転向点の間にある(ように見える。心の目で見て良い)。オフセットの10等級の値は正確でない。自分なりに良い値を選ぶこと（目分量でも良い。最小二乗法などでマッチングさせる人がいたらすごいけどそこまでする必要はない）</figcaption>
+</figure>
+<li>距離は、座学で距離を求めたときに使ったポグソンの式の変形バージョンを使って求める。
+<ul>
+<li>明るさLは距離Dの2乗で暗くなる(L∝D<sup>-2</sup>)ので、ポグソンの式 m<sub>2</sub> - m<sub>1</sub> = -2.5 log(L<sub>2</sub>/L<sub>1</sub>) は次のように書き換えられる。<br>
+m<sub>2</sub> - m<sub>1</sub> = -2.5 log(D<sub>2</sub>/D<sub>1</sub>)<sup>-2</sup></li>
+<li>絶対等級は10 pcの距離に置いたときの等級なので、m<sub>1</sub>を絶対等級M(D<sub>1</sub> = 10 pc)、m<sub>2</sub>を実測の見かけの等級m(D<sub>2</sub>がM67までの距離)とする。</li>
+<li>V等級のオフセット(m - M)を代入して、M67までの距離D<sub>2</sub>を求める。logの底は10。</li>
+</ul></li>
+<li>求めた距離をパーセクから光年にも換算してみる(1 pc ≒ 3.26 光年)。</li>
+<li>年齢と距離が求まったら、文献値(トップページの参考文献など)と比較して考察する。</li>
+</ul>
+<p><br>
+<br></p>
+
+<h3><a href="https://urakawa-seitaro.github.io/Information_engineering_experiment/">情報工学実験トップに戻る</a></h3>
+
+<hr> <small> Last Updated: 2026/10/26, Since: 2026/10/26.<br>The layout of this page is generated by <a href="http://www.gfd-dennou.org/library/dcmodel/doc/TEBIKI.dcmodel-rd-guide.htm">Makefile.rd2html</a>. </small>
+
+
+
+</body></html>
