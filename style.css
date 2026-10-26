@@ -269,6 +269,7 @@ section{ padding: 4rem 6vw; max-width: 1080px; margin: 0 auto; }
   box-shadow: var(--shadow-med);
 }
 .report h2{ margin-top:0; }
+.report a{ color: var(--text-light); font-size: 1.3em; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
 footer{
   text-align:center;
   padding: 2.5rem 6vw;
